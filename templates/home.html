@@ -1,0 +1,43 @@
+{% extends './base.html'%}
+
+{% block title %}
+<title> Home page - Minimal-TODO</title>
+{% endblock %}
+
+{% block body %}
+<p class="h5 text-muted">Your Own Task Manager</p>
+<hr>
+<form action="/add/" method="post">
+	<div class="form-group">
+		<label for=""></label>
+		<input type="text" class="form-control" name="task" required>
+	</div>
+	<button class="submit btn btn-outline-info">Add task</button>
+</form>
+
+<br>
+<p class="h2 text-secondary"> Tasks </p>
+<hr>
+<ul>
+	{% for task in t %}
+		<li>
+			{% if task.taskStatus == 'Complete' %}
+			<span style="text-decoration: line-through" class="text-muted">
+			{% else %}
+			<span class="text-muted">
+			{% endif %}
+			{{ task.task }}
+			
+			</span>
+			{% if task.taskStatus == 'Complete' %}
+			<a href="/incomplete/{{ task.taskId }}"> - Incomplete</a> |
+			{% else %}
+			<a href="/complete/{{ task.taskId }}"> - Complete</a> |
+			{% endif %}
+			<a href="/delete/{{ task.taskId }}">Delete</a> |
+			<a href="/update/{{ task.taskId }}">Update</a>
+			----- {{ task.taskCreationDate.strftime("%x") }}
+		</li>
+	{% endfor %}
+</ul>
+{% endblock %}
